@@ -49,7 +49,7 @@ def stop_game():
     game_running = False
     print("Game stopped!")
 
-#import pygame
+import pygame
 import random
 from grid import Grid
 from pygame.locals import *
@@ -317,7 +317,7 @@ while running:
     pygame.display.update()
     clock.tick(60)
     
-pygame.quit() Example usage:
+pygame.quit()
 # start_game()
 # Later: stop_game()
  
