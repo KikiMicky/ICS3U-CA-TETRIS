@@ -1,45 +1,67 @@
 import pygame
 
-# Initialize Pygame
+# Initialize pygame
 pygame.init()
-# Placeholder for game object
-class Game:
-    def __init__(self):
-        self.current_piece = {"x": 0, "y": 0}
-        self.game_over = False
 
-    def is_valid_move(self, piece, dx, dy):
-        # Placeholder for move validation logic
-        return True
-
-    def rotate_piece(self, piece):
-        # Placeholder for piece rotation logic
-        pass
-
-    def drop_piece(self):
-        # Placeholder for piece drop logic
-        pass
-
-    def update(self):
-        # Placeholder for game update logic
-        pass
-
-    def draw(self):
-        # Placeholder for game drawing logic
-        pass
-
-game = Game()
+# Colors
+DARK_BLUE = (44, 44, 120)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
 
 # Screen dimensions
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game Loop")
-
-# Colors
-BLACK = (0, 0, 0)
+pygame.display.set_caption("Python Tetris")
 
 # Clock
 clock = pygame.time.Clock()
+
+class Grid:
+    def __init__(self):
+        self.grid = [[0 for _ in range(10)] for _ in range(20)]
+
+    def print_grid(self):
+        for row in self.grid:
+            print(row)
+
+    def draw(self, screen):
+        for y, row in enumerate(self.grid):
+            for x, cell in enumerate(row):
+                if cell != 0:
+                    pygame.draw.rect(screen, (200, 200, 200), 
+                                     (x * 30, y * 30, 30, 30), 0)
+
+# Placeholder for game object
+class Game:
+    def __init__(self):
+        self.current_piece = {"x": 4, "y": 0}
+        self.game_over = False
+        self.grid = Grid()
+
+    def is_valid_move(self, piece, dx, dy):
+        new_x = piece["x"] + dx
+        new_y = piece["y"] + dy
+        return 0 <= new_x < 10 and 0 <= new_y < 20  # Basic boundary check
+
+    def rotate_piece(self, piece):
+        pass  # Placeholder for piece rotation
+
+    def drop_piece(self):
+        pass  # Placeholder for piece dropping
+
+    def update(self):
+        self.current_piece["y"] += 1  # Simple falling logic
+        if self.current_piece["y"] >= 19:
+            self.game_over = True  # End game if piece reaches bottom
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, RED, 
+                         (self.current_piece["x"] * 30, 
+                          self.current_piece["y"] * 30, 30, 30))
+        self.grid.draw(screen)
+
+# Initialize game
+game = Game()
 
 # Game loop
 running = True
@@ -48,7 +70,7 @@ fall_time = 0
 while running:
     screen.fill(BLACK)
     fall_speed = 500  # 500ms per move down
-    time_passed = clock.tick(60)  # Controls frame rate
+    time_passed = clock.tick(60)
     fall_time += time_passed
 
     for event in pygame.event.get():
@@ -71,11 +93,12 @@ while running:
         game.update()
         fall_time = 0
 
-    game.draw()
+    game.draw(screen)
+    pygame.display.update()
 
     if game.game_over:
         font = pygame.font.Font(None, 50)
-        text = font.render("Game Over!", True, (255, 0, 0))
+        text = font.render("Game Over!", True, RED)
         screen.blit(text, (WIDTH // 4, HEIGHT // 2))
         pygame.display.flip()
         pygame.time.delay(2000)
