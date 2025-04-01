@@ -13,7 +13,7 @@ class LBlock(block):
 
         self.move (0,3)
 
-class JBlock(block):
+class JBlock(block):  
     def __init__(self):
         super().__init__(id=2)
         self.cells = {

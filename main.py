@@ -1,4 +1,4 @@
-import pygame 
+import pygame , sys
 from game import game
 from grid import Grid
 from shapes import *
@@ -20,7 +20,7 @@ while True:
     for event in pygame.event.get ():
         if event.type == pygame.QUIT:
             pygame.quit()
-            quit()
+            sys.exit ()
 
         if event.type == pygame.KEYDOWN:
 
