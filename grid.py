@@ -44,6 +44,46 @@ class Grid:
             return True
         return False
     
+    def is_empty (self, row, column):
+        if self.grid[row][column] == 0:
+            return True
+        return False
+    
+    def is_row_full (self, row):
+        for column in range (self.num_cols):
+            if self.grid[row][column] == 0:
+                return False
+        return True
+    
+    def clear_full_rows (self):
+        rows_cleared = 0
+        for row in range (self.num_rows):
+            if self.is_row_full(row):
+                rows_cleared += 1
+                for r in range (row, 0, -1):
+                    for column in range (self.num_cols):
+                        self.grid[r][column] = self.grid[r-1][column]
+                for column in range (self.num_cols):
+                    self.grid[0][column] = 0
+        return rows_cleared     
+    
+    def move_row_down (self, row):  
+        for r in range (row, 0, -1):
+            for column in range (self.num_cols):
+                self.grid[r][column] = self.grid[r-1][column]
+        for column in range (self.num_cols):
+            self.grid[0][column] = 0    
+
+    def clear_row (self, row):
+        for column in range (self.num_cols):
+            self.grid[row][column] = 0
+        self.move_row_down(row)
+
+    def reset (self):
+        for row in range (self.num_rows):
+            for column in range (self.num_cols):
+                self.grid[row][column] = 0
+    
     
     def draw (self, screen): 
         for row in range (self.num_rows):

@@ -13,6 +13,8 @@ pygame.display.set_caption("HEHE Tetris")
 
 game_instance = game()  # this creates the game object
 
+
+
 def game_loop():
     clock = pygame.time.Clock()
     fall_time = 0
@@ -22,32 +24,32 @@ def game_loop():
     while running:
         screen.fill((44, 44, 120))  # Background color
 
-        # Track time passed to trigger block falling automatically
-        fall_time += clock.get_rawtime() / 1000  # Convert milliseconds to seconds
-        clock.tick(60)  # 60 FPS
+        dt = clock.tick(60) / 1000  # Update clock and get time delta
+        fall_time += dt
 
-        # If it's time to move the block down, do it automatically
         if fall_time > fall_speed:
-            game_instance.move_down()  # Moves the block down one step
-            # If the block hits the bottom or another block, lock it
+            game_instance.move_down()
             if not game_instance.block_inside_grid():
-                game_instance.move_up()  # Undo move down
-                game_instance.lock_block()  # Lock the block in place
-                game_instance.clear_rows()  # Clear full rows
-                game_instance.spawn_new_block()  # Spawn a new block
-                # Game over condition (if new block can't be placed)
+                game_instance.move_up()
+                game_instance.lock_block()
+                game_instance.clear_rows()
+                game_instance.spawn_new_block()
                 if not game_instance.block_inside_grid():
                     print("Game Over!")
-                    running = False  # End game
-            fall_time = 0  # Reset fall time to start the cycle again
+                    running = False
+            fall_time = 0
 
+        # Handle user input...
         # --- Handle Events (User Input) ---
+
+        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-            elif event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     game_instance.move_left()
                     if not game_instance.block_inside_grid():
@@ -57,6 +59,9 @@ def game_loop():
                     game_instance.move_right()
                     if not game_instance.block_inside_grid():
                         game_instance.move_left()  # Undo move if it goes out of bounds
+                
+                elif event.key == pygame.K_UP:
+                    game_instance.current_block.rotate()
 
                 elif event.key == pygame.K_DOWN:
                     game_instance.move_down()  # Manual move down
@@ -69,9 +74,14 @@ def game_loop():
                             print("Game Over!")
                             running = False  # End game
 
+            
+
         # --- Drawing ---
+        screen.fill (PURPLE)
         game_instance.draw(screen)  # Draw the game state (grid + current block)
+        
         pygame.display.update()  # Update the display
+
 
 
 # To let the player know the game is starting

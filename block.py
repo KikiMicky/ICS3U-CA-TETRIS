@@ -18,6 +18,17 @@ class block:
         self.row_offset += row
         self.column_offset += column
 
+    def rotate (self):
+        self.rot_state += 1
+        if self.rot_state == len(self.cells):
+            self.rot_state = 0
+
+    def undo_rotate (self):
+        self.rot_state -= 1
+        if self.rot_state == 0:
+            self.rot_state = len(self.cells) - 1
+     
+
 
     def cell_positions (self):
         tiles = self.cells[self.rot_state]
