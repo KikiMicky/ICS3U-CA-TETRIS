@@ -29,11 +29,12 @@ class block:
         return moved_tiles
 
 
-    def draw (self, screen):
+    def draw (self, screen, offset_x, offset_y):
         tiles = self.cell_positions()
 
         for tile in tiles:
-            tile_rectangle = pygame.Rect (tile.column * self.cell_size +1, tile.row * self.cell_size +1,
+            tile_rectangle = pygame.Rect (offset_x + tile.column * self.cell_size ,
+                                          offset_y + tile.row * self.cell_size ,
                                           self.cell_size -1, self.cell_size -1)
             
 

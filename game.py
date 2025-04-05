@@ -38,11 +38,29 @@ class game:
     def block_inside_grid(self):
         tiles = self.current_block.cell_positions()
         for tile in tiles:
+            if not self.grid.is_inside(tile.row, tile.column):  
+                return False
+        for tile in tiles:
             print(tile)
             if not self.grid.is_inside(tile.row, tile.column):  
                return False
         return True
+    
+    def move_up(self):
+        self.current_block.move(-1, 0)
+
+    def lock_block(self):
+        self.grid.add_block(self.current_block)
+
+    def clear_rows(self):
+            self.grid.clear_full_rows()  # or clear_lines() depending on what you renamed
+
+    def spawn_new_block(self):
+        self.current_block = self.next_block
+        self.next_block = self.get_random_block()
+
 
     def draw(self, screen):
         self.grid.draw(screen)
-        self.current_block.draw(screen)  
+        self.current_block.draw(screen, 1, 1)  
+        self.next_block.draw(screen, 270, 270)

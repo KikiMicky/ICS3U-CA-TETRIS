@@ -4,7 +4,7 @@ from colours import colours
 import random
 from block import block
 from shapes import IBlock, JBlock, LBlock, OBlock, SBlock, TBlock, ZBlock
-from position import Position   
+from position import Position
 
 pygame.init()
 
@@ -19,7 +19,7 @@ def game_loop():
     fall_speed = 0.5  # Seconds per block drop (adjust this to change fall speed)
 
     running = True
-    while True:
+    while running:
         screen.fill((44, 44, 120))  # Background color
 
         # Track time passed to trigger block falling automatically
@@ -74,21 +74,20 @@ def game_loop():
         pygame.display.update()  # Update the display
 
 
-#to let the player know the game is starting
+# To let the player know the game is starting
 def main():
-    
     running = True
     while running:
         draw_start_screen()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit ()
-                sys.exit ()
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if button_rect.collidepoint(event.pos):
-                    print("Game Started!")  
-                    running = False 
-                    game_loop ()
+                    print("Game Started!")
+                    running = False
+                    game_loop()
                     sys.exit()
 
 
@@ -96,10 +95,10 @@ def draw_text(text, font, color, x, y):
     text_surface = font.render(text, True, color)
     screen.blit(text_surface, (x, y))
 
+
 def draw_start_screen():
     screen.fill(BLACK)
-#-----------------------------------------
-# double decoration for title
+    # Double decoration for title
     draw_text("T", title_font, (255, 69, 0), 20, 120)
     draw_text("E", title_font, (255, 160, 122), 70, 120)
     draw_text("T", title_font, (255, 244, 178), 110, 120)
@@ -113,24 +112,20 @@ def draw_start_screen():
     draw_text("R", title_font, (255, 255, 255), 132, 115)
     draw_text("I", title_font, (255, 255, 255), 192, 115)
     draw_text("S", title_font, (255, 255, 255), 212, 115)
-   
-#the triangles to play/start the game
+
+    # The triangles to play/start the game
     pygame.draw.polygon(screen, PURPLE, [(135, 240), (195, 280), (135, 320)], 0)
     pygame.draw.polygon(screen, WHITE, [(135, 240), (195, 280), (135, 320)], 3)
 
     draw_text("PRESS START", button_font, WHITE, 30, 340)
 
     draw_text("⇩ HIGH RECORDS ⇩", score_font, WHITE, 60, 400)
-    pygame.draw.rect(screen, GREEN, (50, 430, 200, 120), 2)  #green stuff
+    pygame.draw.rect(screen, GREEN, (50, 430, 200, 120), 2)  # Green stuff
 
     for i, score in enumerate(high_scores):
         draw_text(f"{i+1}.   {score}", score_font, WHITE, 100, 440 + i * 20)
 
     pygame.display.flip()
-
-
-
-
 
 
 BLACK = (0, 0, 0)
@@ -148,19 +143,7 @@ score_font = pygame.font.Font(None, 30)
 high_scores = [6000, 5000, 4000, 2000, 1000]
 button_rect = pygame.Rect(90, 220, 120, 120)  # x, y, width, height
 
-game = game ()
+game = game()
 
-
-
-
-
-
-            
-            
-    # drawing
-screen.fill (PURPLE)
-game.draw(screen)
-
-pygame.display.update()
-
+# Start the game
 main()
